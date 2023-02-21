@@ -1,0 +1,108 @@
+import { useRef, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+import { Box, Button, styled, TextField } from "@mui/material";
+import CreatableReactSelect from "react-select/creatable";
+
+import { Note, SimpleNote, Tag } from "../../types";
+import InputContainer from "../InputContainer/InputContainer";
+import Header from "../Header/Header";
+
+type NoteFormProps = {
+    title: string,
+    note?: Note,
+    onSubmit: (note: SimpleNote) => void,
+    onCreateTag: (title: string) => Tag,
+    tags: Tag[],
+};
+
+export default function NoteForm({ title, note, onSubmit, onCreateTag, tags }: NoteFormProps) {
+    const [selectedTags, setSelectedTags] = useState<Tag[]>(note?.tags ?? []);
+    const [titleError, setTitleError] = useState(false);
+
+    const navigate = useNavigate();
+
+    const titleRef = useRef<HTMLInputElement>(null);
+    const bodyRef = useRef<HTMLInputElement>(null);
+
+    const handleSubmit = () => {
+        const _title = titleRef.current!.value;
+
+        if (!_title) {
+            setTitleError(true);
+            titleRef.current?.focus();
+            return;
+        }
+
+        onSubmit({ title: _title, body: bodyRef.current!.value, tags: selectedTags });
+        navigate('..', { replace: true });
+    };
+
+    return (
+        <Box>
+            <Header title={title}>
+                <Button variant="outlined" onClick={() => navigate('..')}>Cancel</Button>
+                <Button variant="contained" onClick={handleSubmit}>Save</Button>
+            </Header>
+
+            <InputContainer textField={
+                <TextField
+                    error={titleError}
+                    inputRef={titleRef}
+                    sx={{ borderRadius: '5px' }}
+                    fullWidth
+                    label="Title"
+                    variant="outlined"
+                    defaultValue={note?.title} />
+            }
+                selectField={
+                    <CreatableReactSelect
+                        placeholder="Add tags"
+                        styles={{
+                            container: (baseStyles, state) => ({
+                                ...baseStyles,
+                                height: '100%'
+                            }),
+                            control: (baseStyles, state) => ({
+                                ...baseStyles,
+                                height: '100%'
+                            }),
+                            placeholder: (baseStyles, state) => ({
+                                ...baseStyles,
+                                textAlign: 'left'
+                            }),
+                        }}
+                        onCreateOption={title => {
+                            const tag: Tag = onCreateTag(title);
+                            setSelectedTags(selected => [...selected, tag]);
+                        }}
+                        value={selectedTags.map(tag => {
+                            return { label: tag.title, value: tag.id };
+                        })}
+                        options={tags.map(tag => {
+                            return { label: tag.title, value: tag.id };
+                        })}
+                        onChange={tags => {
+                            setSelectedTags(
+                                tags.map(tag => {
+                                    return { title: tag.label, id: tag.value };
+                                })
+                            );
+                        }}
+                        isMulti
+                    />
+                } />
+
+            <TextField
+                inputRef={bodyRef}
+                sx={{ borderRadius: '5px' }}
+                fullWidth
+                label="Body"
+                variant="outlined"
+                // rows={10}
+                multiline
+                defaultValue={note?.body} />
+
+        </Box >
+    );
+}
