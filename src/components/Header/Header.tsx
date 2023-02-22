@@ -1,4 +1,10 @@
-import { Grid, Typography } from "@mui/material";
+import { useContext } from "react";
+
+import { Grid, IconButton, Typography, useTheme } from "@mui/material";
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+
+import { AppThemeContext } from "../../context/AppThemeContext";
 
 type HeaderProps = {
     title?: string,
@@ -6,6 +12,8 @@ type HeaderProps = {
 };
 
 export default function Header({ title, children }: HeaderProps) {
+    const theme = useTheme();
+    const themeContext = useContext(AppThemeContext);
     return (
         <Grid
             container
@@ -28,6 +36,9 @@ export default function Header({ title, children }: HeaderProps) {
                 display="flex"
                 justifyContent="flex-end"
                 gap="10px">
+                <IconButton sx={{ ml: 1 }} onClick={themeContext.toggleTheme} color="inherit">
+                    {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                </IconButton>
                 {children}
             </Grid>
         </Grid>

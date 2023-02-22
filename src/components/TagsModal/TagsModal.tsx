@@ -1,7 +1,8 @@
 import { useContext } from "react";
 
-import { Box, Grid, IconButton, Modal, TextField, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Modal, Paper, TextField, Typography } from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { AppContext } from "../../context/AppContext";
 import { Tag } from "../../types";
@@ -29,18 +30,29 @@ export default function TagsModal({ open, handleClose }: TagsModalProps) {
             aria-describedby="modal-modal-description">
             <Grid container justifyContent='center'>
                 <Grid item xs={12} sm={10} md={8} lg={6} >
-                    <Box sx={{ margin: '25px', background: 'white', borderRadius: '5px', padding: '10px' }} >
-                        <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ marginBottom: '20px' }} align='center'>
-                            Edit tags
-                        </Typography>
-                        <Grid id="modal-modal-description" container direction='column' spacing={2} >
-                            {tags.length > 0 ? tags.map(tag =>
-                                <Grid item key={tag.id}>
-                                    <TagField tag={tag} onUpdateTag={onUpdateTag} onDeleteTag={onDeleteTag} />
+                    <Paper>
+                        <Box sx={{ margin: '25px', borderRadius: '5px', padding: '10px' }} >
+                            <Grid container justifyContent='space-between'>
+                                <Grid item xs={11} textAlign='left'>
+                                    <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ marginBottom: '20px' }} align='center'>
+                                        Edit tags
+                                    </Typography>
                                 </Grid>
-                            ) : <Typography align="center">No tags</Typography>}
-                        </Grid>
-                    </Box>
+                                <Grid item xs={1} textAlign='right'>
+                                    <IconButton component="label" onClick={handleClose}>
+                                        <CloseIcon fontSize="medium" />
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
+                            <Grid id="modal-modal-description" container direction='column' spacing={2} sx={{ marginBottom: '20px' }}>
+                                {tags.length > 0 ? tags.map(tag =>
+                                    <Grid item key={tag.id}>
+                                        <TagField tag={tag} onUpdateTag={onUpdateTag} onDeleteTag={onDeleteTag} />
+                                    </Grid>
+                                ) : <Typography align="center">No tags</Typography>}
+                            </Grid>
+                        </Box>
+                    </Paper>
                 </Grid>
             </Grid >
         </Modal >

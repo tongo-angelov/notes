@@ -6,12 +6,12 @@ const getLocalData = (key: string, initial: any) => {
     return initial;
 };
 
-export default function useStorage(key: string, initial: any) {
-    const [data, setData] = useState(() => getLocalData(key, initial));
+export default function useStorage<T>(key: string, initial: T) {
+    const [data, setData] = useState<T>(() => getLocalData(key, initial));
 
     useEffect(() => {
         localStorage.setItem(key, JSON.stringify(data));
     }, [data]);
 
-    return [data, setData];
+    return [data, setData] as [T, typeof setData];
 }

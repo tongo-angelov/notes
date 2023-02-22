@@ -18,11 +18,11 @@ export default function NoteCard({ id, title, tags }: NoteCardProps) {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-evenly',
-            color: 'black',
             borderRadius: '5px',
             padding: '5px',
             cursor: 'pointer',
-            border: '1px solid rgba(0, 0, 0, 0.23)'
+            border: '1px solid',
+            borderColor: 'grey.400',
         }}
             onClick={() => navigate(`/${id}`)}>
             <Typography variant='h5'>{title}</Typography>

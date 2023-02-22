@@ -32,8 +32,8 @@ type AppContextProviderProps = {
 };
 
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
-    const [notes, setNotes] = useStorage('notes', []);
-    const [tags, setTags] = useStorage('tags', []);
+    const [notes, setNotes] = useStorage<RawNote[]>('notes', []);
+    const [tags, setTags] = useStorage<Tag[]>('tags', []);
 
     const onCreateNote = (note: SimpleNote) => {
         setNotes((notes: RawNote[]) => [...notes, { id: uuidv4(), title: note.title, body: note.body, tagsId: note.tags.map(tag => tag.id) }]);

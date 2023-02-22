@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { Box, Button, styled, TextField } from "@mui/material";
+import { Box, Button, styled, TextField, useTheme } from "@mui/material";
 import CreatableReactSelect from "react-select/creatable";
 
 import { Note, SimpleNote, Tag } from "../../types";
@@ -21,6 +21,8 @@ export default function NoteForm({ title, note, onSubmit, onCreateTag, tags }: N
     const [titleError, setTitleError] = useState(false);
 
     const navigate = useNavigate();
+
+    const theme = useTheme();
 
     const titleRef = useRef<HTMLInputElement>(null);
     const bodyRef = useRef<HTMLInputElement>(null);
@@ -65,11 +67,16 @@ export default function NoteForm({ title, note, onSubmit, onCreateTag, tags }: N
                             }),
                             control: (baseStyles, state) => ({
                                 ...baseStyles,
+                                backgroundColor: 'none',
                                 height: '100%'
                             }),
                             placeholder: (baseStyles, state) => ({
                                 ...baseStyles,
                                 textAlign: 'left'
+                            }),
+                            menu: (baseStyles, state) => ({
+                                ...baseStyles,
+                                backgroundColor: theme.palette.background.default,
                             }),
                         }}
                         onCreateOption={title => {

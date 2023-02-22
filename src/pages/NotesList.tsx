@@ -1,7 +1,7 @@
 import { ChangeEvent, useContext, useMemo, useState } from "react";
 
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, TextField, Typography, useTheme } from "@mui/material";
 import ReactSelect, { MultiValue } from "react-select";
 
 import { AppContext } from "../context/AppContext";
@@ -20,6 +20,8 @@ export default function NotesList() {
     const [selectedTags, setSelectedTags] = useState<Tag[]>(tags.filter(tag => searchParams.getAll('tag').includes(tag.id)) ?? []);
 
     const navigate = useNavigate();
+
+    const theme = useTheme();
 
     const fullNotes: Note[] = notes.map((note: RawNote) => {
         return { ...note, tags: tags.filter((tag: Tag) => note.tagsId.includes(tag.id)) };
@@ -54,7 +56,7 @@ export default function NotesList() {
     };
 
     return (
-        <Container>
+        <Container >
 
             <Header title="Notes">
                 <Button
@@ -76,7 +78,6 @@ export default function NotesList() {
 
             <InputContainer textField={
                 <TextField
-                    sx={{ borderRadius: '5px' }}
                     fullWidth
                     label="Filter by title"
                     variant="outlined"
@@ -93,11 +94,16 @@ export default function NotesList() {
                             }),
                             control: (baseStyles, state) => ({
                                 ...baseStyles,
+                                backgroundColor: 'none',
                                 height: '100%'
                             }),
                             placeholder: (baseStyles, state) => ({
                                 ...baseStyles,
                                 textAlign: 'left'
+                            }),
+                            menu: (baseStyles, state) => ({
+                                ...baseStyles,
+                                backgroundColor: theme.palette.background.default,
                             }),
                         }}
                         value={selectedTags.map(tag => {
