@@ -23,7 +23,7 @@ export default function TagsModal({ open, handleClose }: TagsModalProps) {
 
     return (
         <Modal
-            sx={{ minHeight: '100svh', display: 'flex', alignItems: 'center' }}
+            sx={{ minHeight: '100svh', overflow: 'scroll' }}
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
