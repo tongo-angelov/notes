@@ -18,12 +18,12 @@ type TagFieldProps = {
     onDeleteTag: (id: string) => void;
 };
 
-
 export default function TagsModal({ open, handleClose }: TagsModalProps) {
     const { tags, onUpdateTag, onDeleteTag } = useContext(AppContext);
 
     return (
         <Modal
+            sx={{ minHeight: '100svh', display: 'flex', alignItems: 'center' }}
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"

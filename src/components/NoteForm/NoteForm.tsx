@@ -28,7 +28,7 @@ export default function NoteForm({ title, note, onSubmit, onCreateTag, tags }: N
     const bodyRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = () => {
-        const _title = titleRef.current!.value;
+        const _title = titleRef.current!.value.trim();
 
         if (!_title) {
             setTitleError(true);
@@ -36,7 +36,7 @@ export default function NoteForm({ title, note, onSubmit, onCreateTag, tags }: N
             return;
         }
 
-        onSubmit({ title: _title, body: bodyRef.current!.value, tags: selectedTags });
+        onSubmit({ title: _title, body: bodyRef.current!.value.trim(), tags: selectedTags });
         navigate('..', { replace: true });
     };
 
@@ -77,6 +77,12 @@ export default function NoteForm({ title, note, onSubmit, onCreateTag, tags }: N
                             menu: (baseStyles, state) => ({
                                 ...baseStyles,
                                 backgroundColor: theme.palette.background.default,
+                            }),
+                            option: (baseStyles, state) => ({
+                                ...baseStyles,
+                                backgroundColor: state.isFocused ?
+                                    (theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[200]) :
+                                    theme.palette.background.default
                             }),
                         }}
                         onCreateOption={title => {

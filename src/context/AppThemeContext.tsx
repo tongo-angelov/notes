@@ -13,7 +13,7 @@ export const AppThemeContext = createContext<ContextType>({
 });
 
 type AppThemeContextProviderProps = {
-    children: JSX.Element;
+    children: JSX.Element | JSX.Element[];
 };
 
 export const AppThemeContextProvider = ({ children }: AppThemeContextProviderProps) => {

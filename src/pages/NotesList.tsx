@@ -105,6 +105,13 @@ export default function NotesList() {
                                 ...baseStyles,
                                 backgroundColor: theme.palette.background.default,
                             }),
+                            option: (baseStyles, state) => ({
+                                ...baseStyles,
+                                backgroundColor: state.isFocused ?
+                                    (theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[200]) :
+                                    theme.palette.background.default
+                            }),
+
                         }}
                         value={selectedTags.map(tag => {
                             return { label: tag.title, value: tag.id };
